@@ -15,15 +15,21 @@ Put some notes here.
 .LINK
 #>
 
-if (Test-Admin){
-    try {
-        Disable-WindowsOptionalFeature -Online -FeatureName Internet-Explorer-Optional-amd64 -NoRestart
+Function Disable-InternetExplorer {
+
+    [cmdletbinding()]
+    param()
+
+    if (Test-Administrator){
+        try {
+            Disable-WindowsOptionalFeature -Online -FeatureName Internet-Explorer-Optional-amd64 -NoRestart
+        }
+        catch {
+            "Internet Explorer is not installed"
+        }
+        finally {}
     }
-    catch {
-        "Internet Explorer is not installed"
+    else {
+        "Admin privilege required to run this command."
     }
-    finally {}
-}
-else {
-    "Admin privilege required to run this command."
 }

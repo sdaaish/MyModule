@@ -15,5 +15,23 @@ Put some notes here.
 .LINK
 #>
 
-Disable-WindowsOptionalFeature -Online -FeatureName smb1protocol -NoRestart
-Get-SmbServerConfiguration | Select EnableSMB1Protocol, EnableSMB2Protocol
+Function Disable-SMBv1 {
+
+    [cmdletbinding()]
+    param()
+
+    if (Test-Administrator){
+        try {
+            Disable-WindowsOptionalFeature -Online -FeatureName smb1protocol -NoRestart
+            Get-SmbServerConfiguration | Select EnableSMB1Protocol, EnableSMB2Protocol
+        }
+        catch {
+            throw "Some error"
+        }
+        finally {}
+    }
+    else {
+        "Admin privilege required to run this command."
+    }
+}
+

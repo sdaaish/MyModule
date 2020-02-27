@@ -1,3 +1,20 @@
+<#
+.SYNOPSIS
+Copies the module from repository to the modulepath.
+
+.DESCRIPTION
+TBD
+
+.PARAMETER Foobar
+None
+
+.EXAMPLE
+./Test/Test.ps1
+
+.NOTES
+Used to test that tha module works.
+#>
+
 #requires -modules BuildHelpers
 
 [cmdletbinding()]
@@ -8,13 +25,13 @@ Function Private:Copy-TestModule {
     param()
 
     # Find out paths for the module
-    $ModuleHome = Split-Path -Path $PSScriptRoot -Parent
-    $ProjectManifest = Get-PSModuleManifest -Path $ModuleHome
-    $ProjectName =  Get-ProjectName -Path $ProjectManifest
+    $Project = Get-BuildEnvironment (Split-Path -Path $PSScriptRoot -Parent)
+    $ProjectManifest = $Project.PSModuleManifest
+    $ProjectName =  $Project.ProjectName
     $ProjectVersion =  Get-Metadata -Path $ProjectManifest
 
     # Source and destination for testing the module
-    $ModuleSource = Join-Path -Path $ModuleHome -ChildPath $ProjectName
+    $ModuleSource = Join-Path -Path $Project.ProjectPath -ChildPath $ProjectName
     $ModuleDestination = @{}
 
     $Platform = $PSVersionTable.Platform
@@ -30,11 +47,11 @@ Function Private:Copy-TestModule {
         Get-ChildItem $DestPath.value
     }
 
-    Write-Verbose "ModuleHome: $ModuleHome"
-    Write-Verbose "ModuleSource: $ModuleSource"
-    Write-Verbose "Project File: $ProjectManifest"
-    Write-Verbose "Project name and Version: $ProjectName $ProjectVersion"
-    Write-Verbose "ModuleDestination: $($ModuleDestination.values)"
+    Write-Verbose "Project Home: $($Project.ProjectPath)"
+    Write-Verbose "Project Manifest: $ProjectManifest"
+    Write-Verbose "Project Name: $ProjectName and Version: $ProjectVersion"
+    Write-Verbose "Module Source: $ModuleSource"
+    Write-Verbose "Module Destination: $($ModuleDestination.values)"
 }
 
 Copy-TestModule

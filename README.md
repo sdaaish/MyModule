@@ -12,8 +12,8 @@
 My personal module with various utilities.
 
 ## <a name=install>Installation</a>
-Install-Module MyModule
-Import-Module MyModule
+`Install-Module MyModule`
+`Import-Module MyModule`
 
 ## <a name="functions">Functions</a>
 

@@ -1,4 +1,4 @@
-https://stackoverflow.com/questions/51296568/powershell-convert-ip-address-to-subnet
+# https://stackoverflow.com/questions/51296568/powershell-convert-ip-address-to-subnet
 function ConvertTo-IPv4MaskBits {
     [CmdLetBinding()]
     param(

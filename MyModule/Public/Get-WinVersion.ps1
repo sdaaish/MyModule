@@ -1,16 +1,23 @@
+# Gets Windows version info from Registry
 Function Get-WinVersion {
     [cmdletbinding()]
     Param (
     )
 
-    $version = (Get-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WaaSAssessment\ -PSProperty Current).Current
+    Function Get-RegInfo {
+        param(
+            $regkey
+        )
+        $version = (Get-itemproperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\' -Name $regkey).$regkey
+        Write-Verbose "$regkey $version"
+        $version
+    }
 
-    Write-Verbose "$version"
     $result = [PSCustomobject]@{
-        Major = ($version.Split("."))[0]
-        Minor =($version.Split("."))[1]
-        Build =($version.Split("."))[2]
-        Patch =($version.Split("."))[3]
+        Major =  (Get-RegInfo CurrentMajorVersionNumber)
+        Minor = (Get-RegInfo CurrentMinorVersionNumber)
+        Build = (Get-RegInfo CurrentBuild)
+        Patch =  (Get-RegInfo UBR)
     }
     $result
 }

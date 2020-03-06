@@ -11,6 +11,8 @@ Function Install-MyModules {
         "Posh-Docker"
         "oh-my-PoSH"
         "InstallModuleFromGit"
+        "Pester"
+        "PSScriptAnalyzer"
     )
 
     $BetaModules = @(

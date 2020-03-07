@@ -32,7 +32,7 @@ Function Install-MyModules {
 
     # Resolve the path to modules depending on version of Powershell and OS
     if ($PSVersionTable.Platform -eq "Unix"){
-        $NewModuleDirectory = [System.IO.Path]::GetFullPath((Join-Path -Path (Resolve-Path "~") -ChildPath ".local/share/powershell/Modules"))  
+        $NewModuleDirectory = [System.IO.Path]::GetFullPath((Join-Path -Path (Resolve-Path "~") -ChildPath ".local/share/powershell/Modules"))
     }
     #Windows
     else {
@@ -52,12 +52,12 @@ Function Install-MyModules {
     Set-PSRepository -name PSGallery -InstallationPolicy Trusted
 
     foreach ($module in $StableModules){
-        Write-Host "Installing module $module"
+        Write-Output "Installing module $module"
         Save-Module -Name $module -Path $NewModuleDirectory
     }
 
     foreach ($module in $BetaModules){
-        Write-Host "Installing module $module"
+        Write-Output "Installing module $module"
         Save-Module -Name $module -path $NewModuleDirectory -AllowPrerelease -Force
     }
 
@@ -66,7 +66,7 @@ Function Install-MyModules {
         $module = $key.key
         $src = $key.value[0]
         $branch =  $key.value[1]
-        Write-Host "Installing module $module from $src and branch $branch"
+        Write-Output "Installing module $module from $src and branch $branch"
         $temp = Get-GitModule -ProjectURI $src -Branch $branch -KeepTempCopy
 
         # Crazy workaround at the moment

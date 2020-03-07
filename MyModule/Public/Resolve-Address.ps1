@@ -6,7 +6,7 @@ function Resolve-Address {
         [Parameter(Mandatory)]
         $address
     )
-    
+
     # Test if address is an IP
     try {
         $ip = ([ipaddress]$address).IPAddressToString

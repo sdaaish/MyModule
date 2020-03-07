@@ -1,7 +1,7 @@
 # Disable legacy features
 Function Disable-WindowsLegacyFeature {
     [cmdletbinding()]
-    
+
     $features =  @(
         "internet-explorer-optional-amd64"
         "MicrosoftWindowsPowerShellV2Root"

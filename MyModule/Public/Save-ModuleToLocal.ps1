@@ -2,7 +2,7 @@ Function Save-ModuleToLocal {
     [cmdletbinding()]
     Param (
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
-        [string]$Name        
+        [string]$Name
     )
 
     begin{
@@ -18,7 +18,7 @@ Function Save-ModuleToLocal {
             $ModulePath = Join-Path -Path (Resolve-Path "~/.local") -ChildPath $version
         }
     }
-    
+
     process {
         Save-Module -Name $Name -Path $ModulePath
     }

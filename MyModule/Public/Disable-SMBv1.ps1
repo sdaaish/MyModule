@@ -23,7 +23,7 @@ Function Disable-SMBv1 {
     if (Test-Administrator){
         try {
             Disable-WindowsOptionalFeature -Online -FeatureName smb1protocol -NoRestart
-            Get-SmbServerConfiguration | Select EnableSMB1Protocol, EnableSMB2Protocol
+            Get-SmbServerConfiguration | Select-Object EnableSMB1Protocol, EnableSMB2Protocol
         }
         catch {
             throw "Some error"

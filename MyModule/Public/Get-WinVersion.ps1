@@ -13,11 +13,16 @@ Function Get-WinVersion {
         $version
     }
 
-    $result = [PSCustomobject]@{
-        Major =  (Get-RegInfo CurrentMajorVersionNumber)
-        Minor = (Get-RegInfo CurrentMinorVersionNumber)
-        Build = (Get-RegInfo CurrentBuild)
-        Patch =  (Get-RegInfo UBR)
+    if ($isLinux) {
+        Throw "Not a windows host."
+    }
+    else{
+        $result = [PSCustomobject]@{
+            Major = (Get-RegInfo CurrentMajorVersionNumber)
+            Minor = (Get-RegInfo CurrentMinorVersionNumber)
+            Build = (Get-RegInfo CurrentBuild)
+            Patch = (Get-RegInfo UBR)
+        }
     }
     $result
 }

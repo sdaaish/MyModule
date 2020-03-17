@@ -15,16 +15,16 @@ Function Install-WSL {
         [string]$Distribution
     )
 
-    switch ($Distribution){
+    switch ($Distribution) {
         "Ubuntu18" {
             $Uri = "https://aka.ms/wsl-ubuntu-1804"
             $Command = "ubuntu1804.exe"
         }
         "Ubuntu16" {
             $Uri = "https://aka.ms/wsl-ubuntu-1604"
-            $Command = "ubuntu.exe"
+            $Command = "ubuntu1604.exe"
         }
-        "Debian" = {
+        "Debian" {
             $Uri = "https://aka.ms/wsl-debian-gnulinux"
             $Command = "debian.exe"
         }
@@ -41,14 +41,14 @@ Function Install-WSL {
     RefreshEnv
 
     Write-Verbose "Configuring WSL for $User"
-    $Command install --root
-    $Command run "apt update"
-    $Command run "apt upgrade -y"
-    $Command run "apt install -y git make"
-    $Command run "printf '[automount]\nroot = /\noptions = \U022metadata\U022\n' > /etc/wsl.conf"
-    $Command run "groupadd -g 1000 $User"
-    $Command run "useradd -u 1000 -g 1000 -G sudo -d /home/$User -m -s /bin/bash $User"
-    $Command run "usermod -p '`$6`$OiB0Vesp`$W2pekhjHU.BMIKdnGnzBPy93pqA5j9UHFQ2uT94i4ukixVkCN/xomc9mWtkBCKCkFndGKDkVdzVR45EpUkcV51' $User"
-    $Command config --default-user $User
+    & $Command install --root
+    & $Command run "apt update"
+    & $Command run "apt upgrade -y"
+    & $Command run "apt install -y git make"
+    & $Command run "printf '[automount]\nroot = /\noptions = \U022metadata\U022\n' > /etc/wsl.conf"
+    & $Command run "groupadd -g 1000 $User"
+    & $Command run "useradd -u 1000 -g 1000 -G sudo -d /home/$User -m -s /bin/bash $User"
+    & $Command run "usermod -p '`$6`$OiB0Vesp`$W2pekhjHU.BMIKdnGnzBPy93pqA5j9UHFQ2uT94i4ukixVkCN/xomc9mWtkBCKCkFndGKDkVdzVR45EpUkcV51' $User"
+    & $Command config --default-user $User
     Remove-Item -Force -Path $Path
 }

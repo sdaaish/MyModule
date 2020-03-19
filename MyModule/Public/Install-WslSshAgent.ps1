@@ -1,5 +1,8 @@
 # Get WSL SSH agent, from https://github.com/rupor-github/wsl-ssh-agent/
 # Based on https://polansky.co/blog/a-better-windows-wsl-openssh-experience/
+# Start with "wsl-ssh-agent.exe -setenv -envname WSL_AUTH_SOCK"
+# Add this to WSL: "[ -n ${WSL_AUTH_SOCK} ] && export SSH_AUTH_SOCK=${WSL_AUTH_SOCK}"
+
 Function Install-WslSShAgent {
     [cmdletbinding()]
 

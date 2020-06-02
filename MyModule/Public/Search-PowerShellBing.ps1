@@ -1,7 +1,7 @@
 # Search bing for powershell examples
 # Bing has preview of powershell code which is nice
 Function Search-PowershellBing {
-    
+
     $search = "powershell+"
     $search += $args -join "+"
 

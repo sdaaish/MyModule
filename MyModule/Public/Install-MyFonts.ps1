@@ -40,7 +40,7 @@ Function Install-MyFonts {
         )
 
         foreach($font in $fonts){
-            Write-Host "Installing $font"
+            Write-Output "Installing $font"
             sudo scoop install --global $font
         }
     }

@@ -38,9 +38,9 @@ Function Get-FavIcon {
         catch {
             throw "Could not download $uri"
         }
-        Write-host -Foreground:green "Done downloading $outfile"
+        Write-Output "Done downloading $outfile"
     }
     else {
-        Write-Host "Usage: ./Get-FavIcon -Domain domainname -OutFile <file>"
+        Write-Output "Usage: ./Get-FavIcon -Domain domainname -OutFile <file>"
     }
 }

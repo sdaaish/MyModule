@@ -24,8 +24,14 @@ Function Private:Copy-TestModule {
     [cmdletbinding()]
     param()
 
+    $Platform = $PSVersionTable.Platform
+    switch ($Platform){
+        "Win32nt" {$GitPath = "git.exe"}
+        * {$GitPath = "git"}
+    }
+
     # Find out paths for the module
-    $Project = Get-BuildEnvironment (Split-Path -Path $PSScriptRoot -Parent)
+    $Project = Get-BuildEnvironment -GitPath $GitPath (Split-Path -Path $PSScriptRoot -Parent)
     $ProjectManifest = $Project.PSModuleManifest
     $ProjectName =  $Project.ProjectName
     $ProjectVersion =  Get-Metadata -Path $ProjectManifest
@@ -34,7 +40,6 @@ Function Private:Copy-TestModule {
     $ModuleSource = Join-Path -Path $Project.ProjectPath -ChildPath $ProjectName
     $ModuleDestination = @{}
 
-    $Platform = $PSVersionTable.Platform
     Switch ($Platform) {
         "Unix" {$ModuleDestination.Add( "LinuxPath", "${HOME}/.local/share/powershell/Modules/$ProjectName/$ProjectVersion")}
         "Win32NT" {$ModuleDestination.Add("WindowsPath", "$env:HomePATH/Documents/PowerShell/Modules/$ProjectName/$ProjectVersion")}

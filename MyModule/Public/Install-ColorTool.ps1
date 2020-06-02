@@ -13,13 +13,13 @@ Function Install-ColorTool {
     catch {
         throw "Not a directory."
     }
-    
+
     $tmp =  New-TemporaryFile
-    
+
     $terminal = Invoke-Restmethod "https://api.github.com/repos/Microsoft/Terminal/releases/latest"
     $release = $terminal.tag_name
     $uri = "https://github.com/microsoft/Terminal/releases/download/$release/ColorTool.zip"
-    
+
     $start_time = Get-Date
 
     Write-Verbose "Downloading $uri"

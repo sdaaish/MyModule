@@ -24,4 +24,5 @@ Function Build-TestDocker {
     & docker build @dockeroptions $ProjectPath
 }
 
+Write-Output "*** Building docker environment ***"
 Build-TestDocker

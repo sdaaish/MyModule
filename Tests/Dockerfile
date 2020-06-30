@@ -1,7 +1,8 @@
-FROM microsoft/powershell AS build
+FROM mcr.microsoft.com/powershell:ubuntu-18.04 AS build
 
 RUN apt-get update -y && \
-  apt-get install -y git --no-install-recommends
+  apt-get install -y git --no-install-recommends && \
+  rm -rf /var/lib/apt/lists/*
 
 COPY ./Tests /src
 COPY ./MyModule /src

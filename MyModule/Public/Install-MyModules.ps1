@@ -5,13 +5,16 @@ Function Install-MyModules {
 
     $StableModules = @(
         "Get-ChildItemColor"
-        "PSReadline"
         "BuildHelpers"
+        "DockerCompletion"
+        "DockerComposeCompletion"
+        "DockerMachineCompletion"
         "PSScaffold"
         "Posh-Docker"
         "oh-my-PoSH"
         "InstallModuleFromGit"
         "Pester"
+        "PowerShellForGitHub"
         "PSScriptAnalyzer"
     )
 

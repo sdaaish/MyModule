@@ -27,6 +27,8 @@ Function Install-MyFonts {
             "AnonymousPro-NF",
             "Cascadia-Code",
             "Cascadia-Mono",
+            "Cascadia-PL",
+            "Cascadia-MonoPL"
             "CodeNewRoman-NF",
             "DejaVuSansMono-NF",
             "Delugia-Nerd-Font",

@@ -18,6 +18,9 @@ Function Get-WinVersion {
     }
     else{
         $result = [PSCustomobject]@{
+            Edition = (Get-RegInfo EditionID)
+            Release = (Get-RegInfo ReleaseId)
+            Version = (Get-RegInfo DisplayVersion)
             Major = (Get-RegInfo CurrentMajorVersionNumber)
             Minor = (Get-RegInfo CurrentMinorVersionNumber)
             Build = (Get-RegInfo CurrentBuild)

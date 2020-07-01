@@ -22,9 +22,13 @@ Import-Module /src/MyModule.psd1 -Force -Verbose
 Install-MyModules -Verbose
 
 # Print the local installed modules
-Write-Output "*** List all local modules ***"
+Write-Output "*** List all locally installed modules ***"
 (Get-ChildItem ".local/share/powershell/Modules").FullName
 Get-Module -ListAvailable|Foreach-Object {"{0} {1} {2}" -f $_.Name, $_.ModuleBase, $_.Version}
+
+# Print the current loaded modules
+Write-Output "*** List all loaded modules ***"
+Get-Module|Foreach-Object { "{0} {1} {2}" -f $_.Name, $_.ModuleBase, $_.Version }
 
 #Invoke-ScriptAnalyzer /src/MyModule.psd1
 Write-Output "*** Run ScriptAnalyzer on source ***"

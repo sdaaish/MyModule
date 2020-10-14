@@ -3,17 +3,43 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
+# Start on commit to master
 trigger:
-- master
+  batch: true
+  branches:
+    include:
+      - master
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: PowerShell@2
+  name: SetVersion
+  displayName: "This sets the version for the NuGet Package"
+  inputs:
+    targetType: 'inline'
+    script: |
+      Install-Module BuildHelpers -Scope CurrentUser -Force
+      Import-Module BuildHelpers
+      $version = Get-MetaData $(Build.SourcesDirectory)/Get-Hello/Get-Hello.psd1
+      Write-Host "##vso[task.setvariable variable=pkgversion]$version"
+    pwsh: true
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: NuGetCommand@2
+  name: NuGetPack
+  displayName: "Pack the module with NuGet"
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/*.nuspec'
+    versioningScheme: 'byEnvVar'
+    versionEnvVar: 'pkgversion'
+
+- task: NuGetCommand@2
+  name: NuGetPush
+  displayName: "Push the package to the modulesdirectory"
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '68bd804e-dcb2-4173-a112-4edeae5576d9/1eb64e71-f612-47be-86eb-07f0d4e719a5'

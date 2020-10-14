@@ -22,7 +22,8 @@ steps:
     script: |
       Install-Module BuildHelpers -Scope CurrentUser -Force
       Import-Module BuildHelpers
-      $version = Get-MetaData $(Build.SourcesDirectory)/Get-Hello/Get-Hello.psd1
+      $BuildInfo = Get-PSModuleManifest -Path $(Build.SourcesDirectory)
+      $version = Get-MetaData $BuildInfo
       Write-Host "##vso[task.setvariable variable=pkgversion]$version"
     pwsh: true
 

@@ -33,6 +33,7 @@ steps:
   inputs:
     command: 'pack'
     packagesToPack: '**/*.nuspec'
+    packDestination: '$(Build.ArtifactStagingDirectory)/package'
     versioningScheme: 'byEnvVar'
     versionEnvVar: 'pkgversion'
 
@@ -41,6 +42,6 @@ steps:
   displayName: "Push the package to the modulesdirectory"
   inputs:
     command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/package/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
     nuGetFeedType: 'internal'
     publishVstsFeed: '68bd804e-dcb2-4173-a112-4edeae5576d9/1eb64e71-f612-47be-86eb-07f0d4e719a5'

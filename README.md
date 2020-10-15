@@ -1,5 +1,7 @@
 # MyModule
 
+[![Build Status](https://dev.azure.com/sdaaish/BuildMyModule/_apis/build/status/sdaaish.MyModule?branchName=master)](https://dev.azure.com/sdaaish/BuildMyModule/_build/latest?definitionId=2&branchName=master)
+
 **Content**
 
 * [Introduction](#intro)

@@ -37,6 +37,16 @@ steps:
     versioningScheme: 'byEnvVar'
     versionEnvVar: 'pkgversion'
 
+- task: PowerShell@2
+  name: CheckFolder
+  displayName: "Checks the output of the folder"
+  inputs:
+    targetType: inline
+    script: |
+      Get-ChildItem $(Build.ArtifactsStagingDirectory)/package
+    pwsh: true
+
+
 - task: NuGetCommand@2
   name: NuGetPush
   displayName: "Push the package to the modulesdirectory"

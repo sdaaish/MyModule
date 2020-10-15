@@ -43,7 +43,7 @@ steps:
   inputs:
     targetType: inline
     script: |
-      Get-ChildItem $(Build.ArtifactStagingDirectory)/package
+      Get-ChildItem '$(Build.ArtifactStagingDirectory)/package'
     pwsh: true
 
 

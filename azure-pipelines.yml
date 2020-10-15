@@ -33,25 +33,15 @@ steps:
   inputs:
     command: 'pack'
     packagesToPack: '**/*.nuspec'
-    packDestination: '$(Build.ArtifactStagingDirectory)/package'
+    packDestination: '$(Build.ArtifactStagingDirectory)'
     versioningScheme: 'byEnvVar'
     versionEnvVar: 'pkgversion'
-
-- task: PowerShell@2
-  name: CheckFolder
-  displayName: "Checks the output of the folder"
-  inputs:
-    targetType: inline
-    script: |
-      Get-ChildItem '$(Build.ArtifactStagingDirectory)/package'
-    pwsh: true
-
 
 - task: NuGetCommand@2
   name: NuGetPush
   displayName: "Push the package to the modulesdirectory"
   inputs:
     command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/package/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
     nuGetFeedType: 'internal'
     publishVstsFeed: '68bd804e-dcb2-4173-a112-4edeae5576d9/1eb64e71-f612-47be-86eb-07f0d4e719a5'

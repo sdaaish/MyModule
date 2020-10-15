@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>MyModule</id>
+    <version>0.2.3</version>
+    <authors>sdaaish</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <description>My personal Powershell Module</description>
+    <releaseNotes>Added Azure Devops</releaseNotes>
+    <copyright>$copyright$</copyright>
+    <tags>Powershell</tags>
+    <dependencies>
+    </dependencies>
+  </metadata>
+</package>

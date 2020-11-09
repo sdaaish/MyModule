@@ -1,3 +1,8 @@
 Function ConvertFrom-HeicToJpeg {
-    docker run -v ${PWD}:/convert wshelley/heic-to-jpeg
+    $dockeroptions = @(
+        "--rm"
+        "-v", "${PWD}:/convert"
+        "wshelley/heic-to-jpeg"
+    )
+    & docker run @dockeroptions
 }

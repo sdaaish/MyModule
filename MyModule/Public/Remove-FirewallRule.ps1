@@ -6,12 +6,8 @@ Function Remove-FirewallRule {
     )
 
     begin {
-        try {
-            Test-Administrator
-        }
-        catch {
-            Write-Error "You need to be administrator for this."
-            break
+        if (-not (Test-Administrator)){
+            throw "You need to be administrator for this."
         }
     }
 

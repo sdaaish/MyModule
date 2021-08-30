@@ -31,7 +31,8 @@ Function Install-MyFonts {
             "Cascadia-MonoPL"
             "CodeNewRoman-NF",
             "DejaVuSansMono-NF",
-            "Delugia-Nerd-Font",
+            "Delugia-Nerd-Font-complete",
+            "Delugia-Mono-Nerd-Font-complete",
             "FiraCode-NF",
             "FiraMono-NF",
             "Inconsolata-NF",

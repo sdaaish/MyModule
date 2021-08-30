@@ -8,14 +8,20 @@ Function Install-WSL {
     param(
         [Parameter(Mandatory)]
         [string]$Path,
+
         [Parameter(Mandatory)]
-        [string]$User,
+        [string]$DefaultUser,
+
         [Parameter(Mandatory)]
-        [validateset("Ubuntu18","Ubuntu16","Debian")]
+        [validateset("Ubuntu20","Ubuntu18","Ubuntu16","Debian")]
         [string]$Distribution
     )
 
     switch ($Distribution) {
+        "Ubuntu20" {
+            $Uri = "https://aka.ms/wslubuntu2004"
+            $Command = "ubuntu2004.exe"
+        }
         "Ubuntu18" {
             $Uri = "https://aka.ms/wsl-ubuntu-1804"
             $Command = "ubuntu1804.exe"
@@ -32,7 +38,7 @@ Function Install-WSL {
 
     # Download the file without displaying progress
     $ProgressPreference = "SilentlyContinue"
-    Write-Verbose "Downloading..."
+    Write-Verbose "Downloading, please wait..."
     Invoke-WebRequest -Uri $Uri -OutFile $Path -UseBasicParsing
     $ProgressPreference = "Continue"
 
@@ -40,15 +46,15 @@ Function Install-WSL {
     Add-AppxPackage -Path $Path
     RefreshEnv
 
-    Write-Verbose "Configuring WSL for $User"
+    Write-Verbose "Configuring WSL for $DefaultUser"
     & $Command install --root
     & $Command run "apt update"
     & $Command run "apt upgrade -y"
     & $Command run "apt install -y git make"
     & $Command run "printf '[automount]\nroot = /\noptions = \U022metadata\U022\n' > /etc/wsl.conf"
-    & $Command run "groupadd -g 1000 $User"
-    & $Command run "useradd -u 1000 -g 1000 -G sudo -d /home/$User -m -s /bin/bash $User"
-    & $Command run "usermod -p '`$6`$OiB0Vesp`$W2pekhjHU.BMIKdnGnzBPy93pqA5j9UHFQ2uT94i4ukixVkCN/xomc9mWtkBCKCkFndGKDkVdzVR45EpUkcV51' $User"
-    & $Command config --default-user $User
+    & $Command run "groupadd -g 1000 $DefaultUser"
+    & $Command run "useradd -u 1000 -g 1000 -G sudo -d /home/$DefaultUser -m -s /bin/bash $DefaultUser"
+    & $Command run "usermod -p '`$6`$OiB0Vesp`$W2pekhjHU.BMIKdnGnzBPy93pqA5j9UHFQ2uT94i4ukixVkCN/xomc9mWtkBCKCkFndGKDkVdzVR45EpUkcV51' $DefaultUser"
+    & $Command config --default-user $DefaultUser
     Remove-Item -Force -Path $Path
 }

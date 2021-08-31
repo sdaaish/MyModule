@@ -1,7 +1,11 @@
+#Requires -PSEdition Desktop
+
 # Install WSL
 # From https://blogs.msdn.microsoft.com/commandline/2018/11/05/whats-new-for-wsl-in-the-windows-10-october-2018-update/
 # For other distros, https://docs.microsoft.com/en-us/windows/wsl/install-manual
 # Adds the username '$user' with the password 'password'. Change this after you login.
+
+# Currently only works well in Powershell Desktop
 
 Function Install-WSL {
     [cmdletbinding()]
@@ -36,25 +40,31 @@ Function Install-WSL {
         }
     }
 
+    # Set default to WSL2
+    Write-Verbose "Enabling WSL 2"
+    & wsl --set-default-version 2 | Out-Null
+
     # Download the file without displaying progress
     $ProgressPreference = "SilentlyContinue"
     Write-Verbose "Downloading, please wait..."
     Invoke-WebRequest -Uri $Uri -OutFile $Path -UseBasicParsing
+    Write-Verbose "Downloaded $Path from $Uri"
     $ProgressPreference = "Continue"
 
+    Import-Module Appx
     Write-Verbose "Installing package $Path"
     Add-AppxPackage -Path $Path
-    RefreshEnv
+    RefreshEnv | Out-Null
 
     Write-Verbose "Configuring WSL for $DefaultUser"
     & $Command install --root
-    & $Command run "apt update"
-    & $Command run "apt upgrade -y"
-    & $Command run "apt install -y git make"
-    & $Command run "printf '[automount]\nroot = /\noptions = \U022metadata\U022\n' > /etc/wsl.conf"
-    & $Command run "groupadd -g 1000 $DefaultUser"
-    & $Command run "useradd -u 1000 -g 1000 -G sudo -d /home/$DefaultUser -m -s /bin/bash $DefaultUser"
-    & $Command run "usermod -p '`$6`$OiB0Vesp`$W2pekhjHU.BMIKdnGnzBPy93pqA5j9UHFQ2uT94i4ukixVkCN/xomc9mWtkBCKCkFndGKDkVdzVR45EpUkcV51' $DefaultUser"
+    & $Command run --user root "apt update"
+    & $Command run --user root "apt upgrade -y"
+    & $Command run --user root "apt install -y git make"
+    & $Command run --user root "printf '[automount]\nroot = /\noptions = \U022metadata\U022\n' > /etc/wsl.conf"
+    & $Command run --user root "groupadd -g 1000 $DefaultUser"
+    & $Command run --user root "useradd -u 1000 -g 1000 -G sudo -d /home/$DefaultUser -m -s /bin/bash $DefaultUser"
+    & $Command run --user root "usermod -p '`$6`$OiB0Vesp`$W2pekhjHU.BMIKdnGnzBPy93pqA5j9UHFQ2uT94i4ukixVkCN/xomc9mWtkBCKCkFndGKDkVdzVR45EpUkcV51' $DefaultUser"
     & $Command config --default-user $DefaultUser
     Remove-Item -Force -Path $Path
 }

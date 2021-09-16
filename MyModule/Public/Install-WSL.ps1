@@ -1,5 +1,3 @@
-#Requires -PSEdition Desktop
-
 # Install WSL
 # From https://blogs.msdn.microsoft.com/commandline/2018/11/05/whats-new-for-wsl-in-the-windows-10-october-2018-update/
 # For other distros, https://docs.microsoft.com/en-us/windows/wsl/install-manual

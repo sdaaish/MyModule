@@ -16,6 +16,7 @@ Function Install-MyModules {
         "Pester"
         "PowerShellForGitHub"
         "PSScriptAnalyzer"
+        "z"
     )
 
     $BetaModules = @(

@@ -3,5 +3,6 @@
 Function Install-Scoop {
     [cmdletbinding()]
     param()
-    Invoke-Expression (New-Object net.webclient).downloadstring('https://get.scoop.sh')
+    try {Invoke-Expression (New-Object net.webclient).downloadstring('https://get.scoop.sh')}
+    catch {}
 }

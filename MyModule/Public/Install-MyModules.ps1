@@ -4,18 +4,18 @@ Function Install-MyModules {
     param()
 
     $StableModules = @(
-        "Get-ChildItemColor"
         "BuildHelpers"
         "DockerCompletion"
         "DockerComposeCompletion"
         "DockerMachineCompletion"
-        "PSScaffold"
-        "Posh-Docker"
-        "oh-my-PoSH"
         "InstallModuleFromGit"
-        "Pester"
-        "PowerShellForGitHub"
+        "PSScaffold"
         "PSScriptAnalyzer"
+        "Pester"
+        "Posh-Docker"
+        "PowerShellForGitHub"
+        "Terminal-Icons"
+        "oh-my-PoSH"
         "z"
     )
 
@@ -53,16 +53,16 @@ Function Install-MyModules {
     }
 
 
-    Set-PSRepository -name PSGallery -InstallationPolicy Trusted
+    Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
     foreach ($module in $StableModules){
         Write-Output "Installing module $module"
-        Save-Module -Name $module -Path $NewModuleDirectory
+        Save-Module -Name $module -Path $NewModuleDirectory -Repository PSGallery
     }
 
     foreach ($module in $BetaModules){
         Write-Output "Installing module $module"
-        Save-Module -Name $module -path $NewModuleDirectory -AllowPrerelease -Force
+        Save-Module -Name $module -path $NewModuleDirectory -Repository PSGallery -AllowPrerelease -Force
     }
 
     Import-Module InstallModuleFromGit

@@ -8,7 +8,6 @@ Function Install-MyFonts {
         Get-Command scoop
     }
     catch {
-
         throw "Need to install scoop first, exiting."
     }
 
@@ -44,6 +43,20 @@ Function Install-MyFonts {
         foreach($font in $fonts){
             Write-Output "Installing $font"
             sudo scoop install --global $font
+        }
+
+        Write-Verbose "Downloading Caskaydia Code Nerd Fonts"
+        $Caskaydia = "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CascadiaCode.zip"
+        $download = Join-Path $(Resolve-Path ~/Downloads) "CaskaydiaCode.zip"
+
+        try {
+            (New-Object System.Net.WebClient).DownloadFile($Caskaydia, $download)
+        }
+        catch {
+            throw "Failed to download from $Caskaydia."
+        }
+        finally {
+            Write-Host "Downloaded Caskaydia to ${download}."
         }
     }
 }

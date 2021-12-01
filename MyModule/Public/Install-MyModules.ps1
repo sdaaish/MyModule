@@ -8,6 +8,7 @@ Function Install-MyModules {
         "DockerCompletion"
         "DockerComposeCompletion"
         "DockerMachineCompletion"
+        "Get-ChildItemColor"
         "InstallModuleFromGit"
         "PSScaffold"
         "PSScriptAnalyzer"

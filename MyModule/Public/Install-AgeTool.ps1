@@ -15,6 +15,7 @@ Function Install-AgeTool {
     }
 
     $tmp =  New-TemporaryFile
+    $tmp = $tmp -replace("tmp$","zip")
 
     $versions = Invoke-Restmethod "https://api.github.com/repos/FiloSottile/age/releases/latest"
     $asset = $versions.assets| Where-Object name -match "windows-amd64"

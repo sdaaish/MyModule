@@ -1,5 +1,5 @@
 Function Enable-WindowsSandbox {
     [cmdletbinding()]
     param()
-    Enable-WindowsOptionalFeature -Online -FeatureName Containers-DisposableClientVM -NoRestart
+    Enable-WindowsOptionalFeature -FeatureName Containers-DisposableClientVM -All -Online -NoRestart
 }

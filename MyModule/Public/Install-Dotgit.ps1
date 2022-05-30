@@ -56,7 +56,10 @@ Function Install-DotGit {
 
         # Delete tmp
         if ($Force -or $PSCmdlet.ShouldProcess($tmpdir,'Remove files')){
-            Remove-Item -Path $tmpdir -Recurse
+            Remove-Item -Path $tmpdir -Recurse -Force
+        }
+	else {
+	    Remove-Item -Path $tmpdir -Recurse
         }
     }
 }

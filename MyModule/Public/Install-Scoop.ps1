@@ -10,4 +10,3 @@ Function Install-Scoop {
 	Invoke-Expression "& {$(irm get.scoop.sh)} -RunAsAdmin"
     }
 }
-}

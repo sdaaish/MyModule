@@ -51,8 +51,8 @@ Function Install-DotGit {
         & $cmd @options config status.showUntrackedFiles no
 
         # Clone submodules
-        Write-Verbose "$cmd @options submodule update --init --force --remote"
-        & $cmd @options submodule update --init --force --remote
+        Write-Verbose "$cmd @options submodule update --init --force --remote --recursive"
+        & $cmd @options submodule update --init --force --remote --recursive
 
         # Delete tmp
         if ($Force -or $PSCmdlet.ShouldProcess($tmpdir,'Remove files')){

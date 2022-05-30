@@ -3,10 +3,11 @@
 Function Install-Scoop {
     [cmdletbinding()]
     param()
-    try {
-	Invoke-Expression (New-Object net.webclient).downloadstring('https://get.scoop.sh') -ErrorAction Stop
+    if (-not (Test-Administrator)) {
+	Invoke-Expression (New-Object net.webclient).downloadstring('https://get.scoop.sh')
     }
-    catch {
-	Invoke-Expression "& {$(irm get.scoop.sh)} -RunAsAdmin"
+    else
+    {
+	Invoke-Expression "& {$(Invoke-RestMethod get.scoop.sh)} -RunAsAdmin"
     }
 }

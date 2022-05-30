@@ -25,8 +25,6 @@ Function Install-MyFonts {
         $fonts = @(
             "AnonymousPro-NF",
             "Cascadia-Code",
-            "Cascadia-NF-Mono",
-            "Cascadia-NF",
             "CodeNewRoman-NF",
             "DejaVuSansMono-NF",
             "Delugia-Nerd-Font-complete",

@@ -14,22 +14,22 @@ Function Install-MyModules {
         "PSScriptAnalyzer"
         "Pester"
         "Posh-Docker"
+				"Posh-Git"
         "PowerShellForGitHub"
+        "PSReadLine"
         "Terminal-Icons"
         "oh-my-PoSH"
         "z"
     )
 
     $BetaModules = @(
-        "Posh-Git"
-        "PSReadLine"
     )
 
     $GitModules = @{
-        MyModule = "https://github.com/sdaaish/MyModule", "develop"
+				#        MyModule = "https://github.com/sdaaish/MyModule", "develop"
     }
 
-    # Check wich version of Powershell
+    # Check which version of Powershell
     switch ($PSVersionTable.PSEdition){
         "Core" {$version = "PowerShell/Modules"}
         "Desktop" { $version = "WindowsPowerShell/Modules"}

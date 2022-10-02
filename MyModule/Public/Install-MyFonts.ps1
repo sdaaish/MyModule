@@ -24,7 +24,6 @@ Function Install-MyFonts {
         scoop install sudo
         $fonts = @(
             "AnonymousPro-NF",
-            "Cascadia-Code",
             "CodeNewRoman-NF",
             "DejaVuSansMono-NF",
             "Delugia-Nerd-Font-complete",
@@ -44,7 +43,7 @@ Function Install-MyFonts {
         }
 
         Write-Verbose "Downloading Caskaydia Code Nerd Fonts"
-        $Caskaydia = "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CascadiaCode.zip"
+        $Caskaydia = "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/CascadiaCode.zip"
         $download = Join-Path $(Resolve-Path ~/Downloads) "CaskaydiaCode.zip"
 
         try {

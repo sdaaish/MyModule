@@ -4,12 +4,17 @@ Function Install-MyModules {
     param()
 
     $StableModules = @(
+        "AnyPackage"
+        "AnyPackage.Scoop"
         "BuildHelpers"
+        "BurntToast"
         "DockerCompletion"
         "DockerComposeCompletion"
         "DockerMachineCompletion"
+        "F7History"
         "Get-ChildItemColor"
-        "InstallModuleFromGit"
+        "Microsoft.PowerShell.ConsoleGuiTools"
+        "PSFzf"
         "PSScaffold"
         "PSScriptAnalyzer"
         "Pester"
@@ -18,6 +23,8 @@ Function Install-MyModules {
         "PowerShellForGitHub"
         "PSReadLine"
         "Terminal-Icons"
+        "Watch-Command"
+        "WindowsSandboxTools"
         "oh-my-PoSH"
         "z"
     )
@@ -58,28 +65,16 @@ Function Install-MyModules {
 
     foreach ($module in $StableModules){
         Write-Output "Installing module $module"
-        Save-Module -Name $module -Path $NewModuleDirectory -Repository PSGallery
+        Start-Job -Name $module -ScriptBlock {Save-Module -Name $module -Path $NewModuleDirectory -Repository PSGallery}
     }
+
+    Get-Job|Wait-Job -TimeOut 120
 
     foreach ($module in $BetaModules){
         Write-Output "Installing module $module"
-        Save-Module -Name $module -path $NewModuleDirectory -Repository PSGallery -AllowPrerelease -Force
+        Start-Job -Name $module -ScriptBlock {Save-Module -Name $module -path $NewModuleDirectory -Repository PSGallery -AllowPrerelease -Force}
     }
 
-    Import-Module InstallModuleFromGit
-    foreach ($key in $GitModules.GetEnumerator()){
-        $module = $key.key
-        $src = $key.value[0]
-        $branch =  $key.value[1]
-        Write-Output "Installing module $module from $src and branch $branch"
-        $temp = Get-GitModule -ProjectURI $src -Branch $branch -KeepTempCopy
+    Get-Job|Wait-Job -TimeOut 120
 
-        # Crazy workaround at the moment
-        $options = @{
-            Path = (Join-Path $temp.LocalPath $temp.ManifestName)
-            Destination = (Join-Path $NewModuleDirectory (Join-Path $temp.ManifestName $temp.Version))
-        }
-        Copy-Item -Recurse -Force @options
-        Remove-Item -Recurse -Force $temp.LocalPath
-    }
 }

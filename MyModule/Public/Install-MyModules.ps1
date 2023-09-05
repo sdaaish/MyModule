@@ -14,6 +14,7 @@ Function Install-MyModules {
         "F7History"
         "Get-ChildItemColor"
         "Microsoft.PowerShell.ConsoleGuiTools"
+        "Microsoft.Winget.Client"
         "PSFzf"
         "PSScaffold"
         "PSScriptAnalyzer"
@@ -77,4 +78,9 @@ Function Install-MyModules {
 
     Get-Job|Wait-Job -TimeOut 120
 
+    $toastParams = @{
+        Text = "Installation done" -f $timeTaken,$date
+        Header = (New-BTHeader -Id 1 -Title "Setup Done")
+    }
+    New-BurntToastNotification @toastParams
 }

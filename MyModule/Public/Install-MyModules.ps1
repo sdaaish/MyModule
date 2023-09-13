@@ -8,16 +8,23 @@ Function Install-MyModules {
         "AnyPackage.Scoop"
         "BuildHelpers"
         "BurntToast"
+        "DnsClient-PS"
         "DockerCompletion"
         "DockerComposeCompletion"
         "DockerMachineCompletion"
         "F7History"
         "Get-ChildItemColor"
+        "ImportExcel"
+        "PSScriptAnalyzer"
         "Microsoft.PowerShell.ConsoleGuiTools"
+        "Microsoft.PowerShell.SecretManagement"
+        "Microsoft.PowerShell.SecretsStore"
+        "Microsoft.PowerShell.ThreadJob"
         "Microsoft.Winget.Client"
         "PSFzf"
         "PSScaffold"
         "PSScriptAnalyzer"
+        "PSScriptTools"
         "Pester"
         "Posh-Docker"
 				"Posh-Git"
@@ -31,6 +38,7 @@ Function Install-MyModules {
     )
 
     $BetaModules = @(
+        "SecretManagement.KeePass"
     )
 
     $GitModules = @{
@@ -64,20 +72,29 @@ Function Install-MyModules {
 
     Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
+    # Install stable modules
+    $StartTime = Get-Date
     foreach ($module in $StableModules){
         Write-Output "Installing module $module"
         Start-Job -Name $module -ScriptBlock {Save-Module -Name $module -Path $NewModuleDirectory -Repository PSGallery}
     }
 
     Get-Job|Wait-Job -TimeOut 120
+    $msg = "Installed {0} modules in {1:mm}:{1:ss}." -f ($StableModules.count), (New-Timespan -Start $StartTime -End (Get-Date))
+    Write-Verbose $msg
 
+    # Install PreRelease modules
+    $StartTime = Get-Date
     foreach ($module in $BetaModules){
         Write-Output "Installing module $module"
-        Start-Job -Name $module -ScriptBlock {Save-Module -Name $module -path $NewModuleDirectory -Repository PSGallery -AllowPrerelease -Force}
+        $Jobs = Start-Job -Name $module -ScriptBlock {Save-Module -Name $module -path $NewModuleDirectory -Repository PSGallery -AllowPrerelease -Force}
     }
 
     Get-Job|Wait-Job -TimeOut 120
+    $msg = "Installed {0} modules in {1:mm}:{1:ss}." -f ($BetaModules.count), (New-Timespan -Start $StartTime -End (Get-Date))
+    Write-Verbose $msg
 
+    # Show message
     $toastParams = @{
         Text = "Installation done" -f $timeTaken,$date
         Header = (New-BTHeader -Id 1 -Title "Setup Done")

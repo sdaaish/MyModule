@@ -1,7 +1,7 @@
-Function Set-MyEnvironment {
+﻿Function Set-MyEnvironment {
     [cmdletbinding()]
     Param (
-        
+
     )
 
     begin {}

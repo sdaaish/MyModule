@@ -19,7 +19,6 @@ Function Install-MyModules {
         "Microsoft.PowerShell.ConsoleGuiTools"
         "Microsoft.PowerShell.SecretManagement"
         "Microsoft.PowerShell.SecretsStore"
-        "Microsoft.PowerShell.ThreadJob"
         "Microsoft.Winget.Client"
         "PSFzf"
         "PSScaffold"
@@ -76,10 +75,11 @@ Function Install-MyModules {
     $StartTime = Get-Date
     foreach ($module in $StableModules){
         Write-Output "Installing module $module"
-        Start-Job -Name $module -ScriptBlock {Save-Module -Name $module -Path $NewModuleDirectory -Repository PSGallery}
+        $Jobs = Start-Job -Name $module -ScriptBlock {Save-Module -Name $using:module -Path $using:NewModuleDirectory -Repository PSGallery}
     }
 
-    Get-Job|Wait-Job -TimeOut 120
+    Get-Job|Wait-Job -TimeOut 120|Remove-Job
+
     $msg = "Installed {0} modules in {1:mm}:{1:ss}." -f ($StableModules.count), (New-Timespan -Start $StartTime -End (Get-Date))
     Write-Verbose $msg
 
@@ -87,10 +87,11 @@ Function Install-MyModules {
     $StartTime = Get-Date
     foreach ($module in $BetaModules){
         Write-Output "Installing module $module"
-        $Jobs = Start-Job -Name $module -ScriptBlock {Save-Module -Name $module -path $NewModuleDirectory -Repository PSGallery -AllowPrerelease -Force}
+        $Jobs = Start-Job -Name $module -ScriptBlock {Save-Module -Name $using:module -path $using:NewModuleDirectory -Repository PSGallery -AllowPrerelease -Force}
     }
 
-    Get-Job|Wait-Job -TimeOut 120
+    Get-Job|Wait-Job -TimeOut 120|Remove-Job
+
     $msg = "Installed {0} modules in {1:mm}:{1:ss}." -f ($BetaModules.count), (New-Timespan -Start $StartTime -End (Get-Date))
     Write-Verbose $msg
 

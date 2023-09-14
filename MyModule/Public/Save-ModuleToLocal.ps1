@@ -2,7 +2,9 @@ Function Save-ModuleToLocal {
     [cmdletbinding()]
     Param (
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
-        [string]$Name
+        [string]$Name,
+
+        [Switch]$AllowPreRelease
     )
 
     begin{
@@ -20,6 +22,6 @@ Function Save-ModuleToLocal {
     }
 
     process {
-        Save-Module -Name $Name -Path $ModulePath
+        Save-Module -Name $Name -Path $ModulePath $PSBoundParameters
     }
 }

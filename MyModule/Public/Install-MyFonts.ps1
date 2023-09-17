@@ -37,23 +37,37 @@ Function Install-MyFonts {
             "Ubuntu-NF"
         )
 
+
         foreach($font in $fonts){
             Write-Output "Installing $font"
             sudo scoop install --global $font
         }
+    }
 
-        Write-Verbose "Downloading Caskaydia Code Nerd Fonts"
-        $Caskaydia = "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/CascadiaCode.zip"
-        $download = Join-Path $(Resolve-Path ~/Downloads) "CaskaydiaCode.zip"
+    $version = "v3.0.2"
+    $uri = "https://github.com/ryanoasis/nerd-fonts/releases/download/${version}/"
+    $nerdFonts = @{
+        Caskaydia = "CascadiaCode.zip"
+        Iosevka = "Iosevka.zip"
+    }
+
+    foreach ($font in ${nerdFonts}.GetEnumerator()) {
+
+        $msg = "Downloading {0} Font" -f $font.key
+        Write-Verbose $msg
+
+        $archive = $font.key + ".zip"
+        $zipfile = Join-Path $(Resolve-Path ~/Downloads) $archive
+        $url = $uri + $font.value
 
         try {
-            (New-Object System.Net.WebClient).DownloadFile($Caskaydia, $download)
+            (New-Object System.Net.WebClient).DownloadFile($url, $zipfile)
         }
         catch {
-            throw "Failed to download from $Caskaydia."
+            throw "Failed to download from ${url}."
         }
         finally {
-            Write-Host "Downloaded Caskaydia to ${download}."
+            Write-Host "Downloaded $font to ${zipfile}."
         }
     }
 }

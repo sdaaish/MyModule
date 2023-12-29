@@ -1,15 +1,18 @@
-# Search Bing
+# Search Cheat.sh for Linux manpages
 Function Search-LinuxMan {
 
     param(
-        $manpage
+        $manpage,
+        $style = "emacs"
     )
 
+    $url = "https://cheat.sh/"
+
     if($manpage){
-        $uri = "https://cheat.sh/" + "$manpage"
+        $uri = "{0}/{1}?style={2}" -f $url,$manpage,$style
     }
     else {
-        $uri = "https://cheat.sh"
+        $uri = $url
     }
 
     $response = Invoke-WebRequest $uri

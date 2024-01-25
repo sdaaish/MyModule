@@ -7,7 +7,6 @@ Function Install-MyModules {
         "AnyPackage"
         "AnyPackage.Scoop"
         "BuildHelpers"
-        "BurntToast"
         "DnsClient-PS"
         "DockerCompletion"
         "DockerComposeCompletion"
@@ -33,13 +32,20 @@ Function Install-MyModules {
         "Watch-Command"
         "WindowsSandboxTools"
         "oh-my-PoSH"
-        "z"
+        "zLocation"
     )
 
+    # BurntToast only works on Windows
+    if ($PSVersionTable.PSEdition -eq "Desktop" -or $isWindows){
+        $StableModules += "BurntToast"
+    }
+
+    # These are installed in pre-release
     $BetaModules = @(
         "SecretManagement.KeePass"
     )
 
+    # To be removed
     $GitModules = @{
 				#        MyModule = "https://github.com/sdaaish/MyModule", "develop"
     }
@@ -51,7 +57,7 @@ Function Install-MyModules {
     }
 
     # Resolve the path to modules depending on version of Powershell and OS
-    if ($PSVersionTable.Platform -eq "Unix"){
+    if ($isLinux){
         $NewModuleDirectory = [System.IO.Path]::GetFullPath((Join-Path -Path (Resolve-Path "~") -ChildPath ".local/share/powershell/Modules"))
     }
     #Windows
@@ -90,6 +96,7 @@ Function Install-MyModules {
         $Jobs = Start-Job -Name $module -ScriptBlock {Save-Module -Name $using:module -path $using:NewModuleDirectory -Repository PSGallery -AllowPrerelease -Force}
     }
 
+    # Run the jobs and wait
     Get-Job|Wait-Job -TimeOut 120|Remove-Job
 
     $msg = "Installed {0} modules in {1:mm}:{1:ss}." -f ($BetaModules.count), (New-Timespan -Start $StartTime -End (Get-Date))

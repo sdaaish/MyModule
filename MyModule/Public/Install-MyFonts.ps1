@@ -30,7 +30,6 @@ Function Install-MyFonts {
             "Delugia-Mono-Nerd-Font-complete",
             "FiraCode-NF",
             "FiraMono-NF",
-            "Inconsolata-NF",
             "RobotoMono-NF",
             "SourceCodePro-NF",
             "Terminus-NF",
@@ -40,16 +39,21 @@ Function Install-MyFonts {
 
         foreach($font in $fonts){
             Write-Output "Installing $font"
-            sudo scoop install --global $font
+            #            sudo scoop install --global $font
         }
     }
 
-    $version = "v3.0.2"
+    $version = "v3.1.1"
     $uri = "https://github.com/ryanoasis/nerd-fonts/releases/download/${version}/"
     $nerdFonts = @{
         Caskaydia = "CascadiaCode.zip"
+        CaskaydiaMono = "CascadiaMono.zip"
         Iosevka = "Iosevka.zip"
+        Inconsolata = "Inconsolata.zip"
     }
+
+    $tempDir = Join-Path $(Resolve-Path ~/Downloads) ([Io.Path]::GetRandomFileName())
+    New-Item -Path $tempDir -ItemType Directory| Out-Null
 
     foreach ($font in ${nerdFonts}.GetEnumerator()) {
 
@@ -57,8 +61,13 @@ Function Install-MyFonts {
         Write-Verbose $msg
 
         $archive = $font.key + ".zip"
-        $zipfile = Join-Path $(Resolve-Path ~/Downloads) $archive
+        $zipfile = Join-Path $tempDir $archive
         $url = $uri + $font.value
+
+        $msg = "From: {0}" -f $Url
+        Write-Verbose $msg
+        $msg = "Writing to: {0}" -f $zipfile
+        Write-Verbose $msg
 
         try {
             (New-Object System.Net.WebClient).DownloadFile($url, $zipfile)

@@ -28,13 +28,10 @@ Function Install-MyModules {
 				"Posh-Git"
         "PowerShellForGitHub"
         "PSReadLine"
-        "PSFzf"
         "Terminal-Icons"
         "Watch-Command"
         "WindowsSandboxTools"
         "oh-my-PoSH"
-        "ZLocation"
-
     )
 
     # BurntToast only works on Windows

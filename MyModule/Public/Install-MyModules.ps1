@@ -61,7 +61,7 @@ Function Install-MyModules {
     }
     #Windows
     else {
-        $LocalDirectory = [System.IO.Path]::GetFullPath((Join-Path -Path (Resolve-Path "~") -ChildPath ".local"))
+        $LocalDirectory = [System.IO.Path]::GetFullPath((Join-Path -Path (Resolve-Path "~") -ChildPath ".local/share"))
         $NewModuleDirectory = Join-Path -Path $LocalDirectory -ChildPath $version
     }
     Write-Verbose "New module-path: $NewModuleDirectory"

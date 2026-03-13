@@ -7,7 +7,7 @@ function Resolve-Address {
         $address
     )
 
-    # Test if address is an IP
+    # Test if the address does resolve
     try {
         $response = [System.Net.Dns]::GetHostEntry($address)
     }

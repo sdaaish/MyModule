@@ -7,25 +7,19 @@ function Resolve-Address {
         $address
     )
 
-    # Test if address is an IP
+    # Test if the address does resolve
     try {
-        $ip = ([ipaddress]$address).IPAddressToString
+        $response = [System.Net.Dns]::GetHostEntry($address)
     }
     catch {
-        # Otherwise check for a name
-        try {
-            ([System.Net.Dns]::GetHostByName($address)).
-            AddressList.
-            IPAddressToString
-        }
-        catch {
-        }
+        $null
+        break
     }
 
-    # Check the IP for a name
-    try {
-        ([System.Net.Dns]::GetHostByAddress($ip)).Hostname
+    if ($response.HostName -match $address){
+        $response.AddressList.IPAddressToString
     }
-    catch {
+    else{
+        $response.HostName
     }
 }
